@@ -12,20 +12,21 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-track { background-color: #f8fafc; }
-        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        /* スマホでの横スクロールを防止するためのスタイルを追加 */
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; overflow-x: hidden; width: 100%; max-width: 100vw; }
         .auth-hidden { display: none !important; }
     </style>
 </head>
 <body class="min-h-screen text-gray-800">
 
-<header class="bg-gray-800 text-white shadow-lg sticky top-0 z-10">
-    <div class="max-w-4xl mx-auto p-4 flex justify-between items-center">
-        <h1 class="text-2xl font-extrabold tracking-tight cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">🎶 My Live Records</h1>
-        <div class="flex items-center space-x-3">
-            <button id="toggleAddForm" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1 px-3 rounded-lg shadow-md transition-colors text-sm">
+<header class="bg-gray-800 text-white shadow-lg sticky top-0 z-10 w-full">
+    <div class="max-w-4xl mx-auto p-4 flex justify-between items-center gap-2">
+        <h1 class="text-lg sm:text-2xl font-extrabold tracking-tight cursor-pointer truncate" onclick="window.scrollTo({top:0, behavior:'smooth'})">🎶 My Live Records</h1>
+        <div class="flex items-center space-x-2 flex-shrink-0">
+            <button id="toggleAddForm" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1 px-2 sm:px-3 rounded-lg shadow-md transition-colors text-xs sm:text-sm whitespace-nowrap">
                 管理者メニュー
             </button>
-            <button id="logoutBtn" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg shadow-md transition-colors text-sm hidden">
+            <button id="logoutBtn" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 sm:px-3 rounded-lg shadow-md transition-colors text-xs sm:text-sm hidden whitespace-nowrap">
                 ログアウト
             </button>
             <button id="toggleFilter" class="p-2 rounded-lg hover:bg-gray-700 transition-colors md:hidden text-sm">
@@ -35,9 +36,9 @@
     </div>
 </header>
 
-<main class="max-w-4xl mx-auto p-4">
+<main class="max-w-4xl mx-auto p-4 w-full">
 
-    <div id="addRecordSection" class="bg-white p-6 rounded-xl shadow-2xl mb-8 hidden border-l-4 border-blue-500">
+    <div id="addRecordSection" class="bg-white p-4 sm:p-6 rounded-xl shadow-2xl mb-8 hidden border-l-4 border-blue-500">
         <div id="loginContainer">
             <h2 class="text-xl font-bold text-gray-800 mb-2">管理者ログイン</h2>
             <p class="text-sm text-gray-500 mb-4">編集・追加を行うにはログインしてください。</p>
@@ -50,26 +51,26 @@
         </div>
 
         <div id="authContent" class="hidden">
-            <div class="flex justify-between items-center mb-4 border-b pb-2">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4 border-b pb-2">
                 <h2 class="text-xl font-bold text-gray-800">新規スケジュールの追加</h2>
-                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-bold">ログイン中</span>
+                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-bold whitespace-nowrap">ログイン中</span>
             </div>
 
             <form id="addRecordForm">
                 <div class="mb-5">
                     <label class="block text-sm font-bold text-gray-700 mb-2">カテゴリ *</label>
-                    <div class="flex flex-wrap gap-4">
-                        <label class="inline-flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50">
+                    <div class="flex flex-wrap gap-3">
+                        <label class="inline-flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 flex-grow sm:flex-grow-0">
                             <input type="radio" name="newType" value="live" checked class="w-5 h-5 text-blue-600">
-                            <span class="ml-2 font-bold">🎤 ライブ</span>
+                            <span class="ml-2 font-bold text-sm sm:text-base">🎤 ライブ</span>
                         </label>
-                        <label class="inline-flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50">
+                        <label class="inline-flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 flex-grow sm:flex-grow-0">
                             <input type="radio" name="newType" value="event" class="w-5 h-5 text-orange-500">
-                            <span class="ml-2 font-bold">🎪 イベント</span>
+                            <span class="ml-2 font-bold text-sm sm:text-base">🎪 イベント</span>
                         </label>
-                        <label class="inline-flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50">
+                        <label class="inline-flex items-center cursor-pointer p-2 border rounded hover:bg-gray-50 flex-grow sm:flex-grow-0">
                             <input type="radio" name="newType" value="other" class="w-5 h-5 text-green-500">
-                            <span class="ml-2 font-bold">🎸 その他</span>
+                            <span class="ml-2 font-bold text-sm sm:text-base">🎸 その他</span>
                         </label>
                     </div>
                 </div>
@@ -125,12 +126,12 @@
                     </div>
                 </div>
 
-                <div id="addSetlistArea" class="mb-6"></div>
+                <div id="addSetlistArea" class="mb-6 w-full overflow-hidden"></div>
 
                 <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md transition-transform transform hover:scale-[1.01]">
                     予定を登録
                 </button>
-                <p id="addMessage" class="mt-3 text-center text-sm font-bold"></p>
+                <p id="addMessage" class="mt-3 text-center text-sm font-bold break-words"></p>
             </form>
         </div>
     </div>
@@ -138,35 +139,35 @@
     <div id="filterArea" class="bg-white p-4 rounded-xl shadow-md mb-8 hidden md:block">
         <h2 class="text-sm font-bold text-gray-500 mb-2 uppercase tracking-wide">Search & Filter</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input type="text" id="searchKeyword" placeholder="🔍 キーワード検索 (曲名, アーティスト...)" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 w-full">
-            <select id="filterVenue" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 w-full cursor-pointer">
+            <input type="text" id="searchKeyword" placeholder="🔍 キーワード検索 (曲名, アーティスト...)" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 w-full min-w-0">
+            <select id="filterVenue" class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 w-full cursor-pointer min-w-0">
                 <option value="">🏠 全ての会場</option>
             </select>
         </div>
     </div>
 
-    <h2 id="upcomingTitle" class="text-2xl font-bold text-gray-700 mb-4 mt-2 border-b-4 border-blue-500 pb-2 inline-block">📅 Upcoming Schedule</h2>
-    <section id="upcomingList" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12"></section>
+    <h2 id="upcomingTitle" class="text-xl sm:text-2xl font-bold text-gray-700 mb-4 mt-2 border-b-4 border-blue-500 pb-2 inline-block">📅 Upcoming Schedule</h2>
+    <section id="upcomingList" class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-12"></section>
 
-    <h2 id="pastTitle" class="text-2xl font-bold text-gray-700 mb-4 border-b-4 border-gray-400 pb-2 inline-block">🎤 Past Schedule</h2>
-    <section id="pastList" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12"></section>
+    <h2 id="pastTitle" class="text-xl sm:text-2xl font-bold text-gray-700 mb-4 border-b-4 border-gray-400 pb-2 inline-block">🎤 Past Schedule</h2>
+    <section id="pastList" class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-12"></section>
 
-    <div id="noResults" class="hidden text-center p-12 bg-white rounded-xl shadow-sm mt-6">
-        <p class="text-xl text-gray-500 font-medium">条件に一致する記録はありません。</p>
+    <div id="noResults" class="hidden text-center p-8 sm:p-12 bg-white rounded-xl shadow-sm mt-6">
+        <p class="text-lg sm:text-xl text-gray-500 font-medium break-words">条件に一致する記録はありません。</p>
     </div>
 
 </main>
 
-<div id="detailModal" class="fixed inset-0 bg-gray-900 bg-opacity-80 z-50 flex items-center justify-center p-4 hidden transition-opacity duration-300" onclick="closeModal(event)">
+<div id="detailModal" class="fixed inset-0 bg-gray-900 bg-opacity-80 z-50 flex items-center justify-center p-2 sm:p-4 hidden transition-opacity duration-300" onclick="closeModal(event)">
     <div class="bg-white w-full max-w-2xl max-h-[90vh] rounded-xl shadow-2xl overflow-y-auto transform scale-95 opacity-0 transition-all duration-300 flex flex-col" onclick="event.stopPropagation()">
-        <div class="p-6 flex-grow">
+        <div class="p-4 sm:p-6 flex-grow">
             <div class="flex justify-between items-start mb-4">
-                <div id="editButtons" class="flex space-x-2"></div>
-                <button class="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors" onclick="closeModal()">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <div id="editButtons" class="flex flex-wrap gap-2"></div>
+                <button class="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0 ml-2" onclick="closeModal()">
+                    <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
-            <div id="modalContent"></div>
+            <div id="modalContent" class="w-full"></div>
         </div>
     </div>
 </div>
@@ -174,10 +175,10 @@
 <div id="deleteConfirmModal" class="fixed inset-0 bg-gray-900 bg-opacity-80 z-[60] flex items-center justify-center p-4 hidden">
     <div class="bg-white w-full max-w-sm rounded-xl p-6 shadow-2xl animate-bounce-in">
         <h3 class="text-xl font-bold text-red-600 mb-3">🚨 削除確認</h3>
-        <p class="mb-6 text-gray-700">本当にこの記録を削除しますか？<br><span class="text-sm text-gray-500">この操作は取り消せません。</span></p>
-        <div class="flex justify-end space-x-3">
-            <button onclick="closeDeleteConfirmModal()" class="px-4 py-2 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300">キャンセル</button>
-            <button id="confirmDeleteBtn" class="px-4 py-2 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 shadow-md">削除実行</button>
+        <p class="mb-6 text-gray-700 text-sm sm:text-base">本当にこの記録を削除しますか？<br><span class="text-xs sm:text-sm text-gray-500">この操作は取り消せません。</span></p>
+        <div class="flex justify-end gap-3">
+            <button onclick="closeDeleteConfirmModal()" class="px-3 py-2 sm:px-4 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300 text-sm sm:text-base">キャンセル</button>
+            <button id="confirmDeleteBtn" class="px-3 py-2 sm:px-4 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 shadow-md text-sm sm:text-base">削除実行</button>
         </div>
     </div>
 </div>
@@ -210,7 +211,6 @@ let unsubscribe = null;
 let recordToDeleteId = null;
 let isUserLoggedIn = false;
 
-// ライブ種別の選択肢リスト
 const liveTypeOptions = ["LIVE", "ワンマン", "対バン", "フェス", "リリイベ", "特典会", "その他"];
 
 const dom = {
@@ -299,28 +299,28 @@ const renderSetlistEditor = (setlist, mode) => {
         const numDisplay = isSection ? '-' : `${index + 1}.`;
         const styleClass = isSection ? 'font-bold text-blue-600 bg-blue-50' : 'text-gray-700';
         return `
-        <div class="flex items-center space-x-2 mb-2 setlist-item group">
-            <span class="text-gray-400 font-bold w-6 text-right text-xs">${numDisplay}</span>
-            <input type="text" value="${item.title}" class="flex-grow p-2 border border-gray-300 rounded text-sm ${styleClass} setlist-song-input">
+        <div class="flex items-center space-x-1 sm:space-x-2 mb-2 setlist-item group w-full">
+            <span class="text-gray-400 font-bold w-4 sm:w-6 text-right text-xs flex-shrink-0">${numDisplay}</span>
+            <input type="text" value="${item.title}" class="flex-grow min-w-0 p-1 sm:p-2 border border-gray-300 rounded text-xs sm:text-sm ${styleClass} setlist-song-input">
             <input type="hidden" class="setlist-type-input" value="${item.type}">
-            <button type="button" onclick="removeSetlistItem(this, '${containerId}')" class="text-red-400 hover:text-red-600 p-2 transition-opacity">✖</button>
+            <button type="button" onclick="removeSetlistItem(this, '${containerId}')" class="text-red-400 hover:text-red-600 p-1 sm:p-2 transition-opacity flex-shrink-0">✖</button>
         </div>`;
     }).join('');
 
     return `
-    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 text-sm">
+    <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200 text-sm w-full">
         <label class="block font-bold text-gray-700 mb-2">セットリスト / メモ</label>
         <div id="${containerId}" class="mb-3">${itemsHtml}</div>
         
-        <div class="flex space-x-2 border-b pb-3 border-gray-200 mb-3">
-            <input type="text" id="${inputId}" placeholder="曲名を入力" class="flex-grow p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500" onkeydown="if(event.key==='Enter'){event.preventDefault(); addSetlistItem('${mode}');}">
-            <button type="button" onclick="addSetlistItem('${mode}')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-bold whitespace-nowrap">曲を追加</button>
+        <div class="flex gap-2 border-b pb-3 border-gray-200 mb-3">
+            <input type="text" id="${inputId}" placeholder="曲名を入力" class="flex-grow min-w-0 p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500" onkeydown="if(event.key==='Enter'){event.preventDefault(); addSetlistItem('${mode}');}">
+            <button type="button" onclick="addSetlistItem('${mode}')" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded font-bold whitespace-nowrap text-sm flex-shrink-0">追加</button>
         </div>
 
         <div class="flex flex-col gap-2">
-            <div class="flex space-x-2">
-                <input type="text" id="${sectionInputId}" placeholder="セクション名 (例: 第1部, Acoustic)" class="flex-grow p-2 border border-gray-300 rounded text-xs focus:ring-2 focus:ring-teal-500" onkeydown="if(event.key==='Enter'){event.preventDefault(); addCustomSection('${mode}');}">
-                <button type="button" onclick="addCustomSection('${mode}')" class="bg-teal-600 hover:bg-teal-700 text-white px-3 py-1 rounded font-bold text-xs whitespace-nowrap">区切りを追加</button>
+            <div class="flex gap-2">
+                <input type="text" id="${sectionInputId}" placeholder="セクション名" class="flex-grow min-w-0 p-2 border border-gray-300 rounded text-xs focus:ring-2 focus:ring-teal-500" onkeydown="if(event.key==='Enter'){event.preventDefault(); addCustomSection('${mode}');}">
+                <button type="button" onclick="addCustomSection('${mode}')" class="bg-teal-600 hover:bg-teal-700 text-white px-3 py-1 rounded font-bold text-xs whitespace-nowrap flex-shrink-0">区切</button>
             </div>
             <div class="flex flex-wrap gap-2">
                 <button type="button" onclick="addSection('${mode}', 'アンコール')" class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded text-xs">＋ アンコール</button>
@@ -349,11 +349,11 @@ window.addSection = (mode, title) => { appendItemHTML(mode, title, 'section'); }
 function appendItemHTML(mode, title, type) {
     const container = document.getElementById(`${mode}SetlistEditorContainer`);
     const div = document.createElement('div');
-    div.className = 'flex items-center space-x-2 mb-2 setlist-item group';
-    div.innerHTML = `<span class="text-gray-400 font-bold w-6 text-right text-xs">-</span>
-        <input type="text" value="${title}" class="flex-grow p-2 border border-gray-300 rounded text-sm ${type==='section'?'font-bold text-blue-600 bg-blue-50':''} setlist-song-input">
+    div.className = 'flex items-center space-x-1 sm:space-x-2 mb-2 setlist-item group w-full';
+    div.innerHTML = `<span class="text-gray-400 font-bold w-4 sm:w-6 text-right text-xs flex-shrink-0">-</span>
+        <input type="text" value="${title}" class="flex-grow min-w-0 p-1 sm:p-2 border border-gray-300 rounded text-xs sm:text-sm ${type==='section'?'font-bold text-blue-600 bg-blue-50':''} setlist-song-input">
         <input type="hidden" class="setlist-type-input" value="${type}">
-        <button type="button" onclick="removeSetlistItem(this, '${mode}SetlistEditorContainer')" class="text-red-400 hover:text-red-600 p-2">✖</button>`;
+        <button type="button" onclick="removeSetlistItem(this, '${mode}SetlistEditorContainer')" class="text-red-400 hover:text-red-600 p-1 sm:p-2 flex-shrink-0">✖</button>`;
     container.appendChild(div);
     renumberSetlist(`${mode}SetlistEditorContainer`);
 }
@@ -416,40 +416,39 @@ window.openModal = (id) => {
 };
 
 function renderDetailView(record) {
-    dom.editButtons.innerHTML = isUserLoggedIn ? `<button onclick="enterEditMode('${record.id}')" class="bg-yellow-500 text-white text-sm font-bold py-2 px-4 rounded shadow">編集</button><button onclick="openDeleteConfirmModal('${record.id}')" class="bg-red-500 text-white text-sm font-bold py-2 px-4 rounded shadow">削除</button>` : '';
+    dom.editButtons.innerHTML = isUserLoggedIn ? `<button onclick="enterEditMode('${record.id}')" class="bg-yellow-500 text-white text-xs sm:text-sm font-bold py-1 px-3 sm:py-2 sm:px-4 rounded shadow">編集</button><button onclick="openDeleteConfirmModal('${record.id}')" class="bg-red-500 text-white text-xs sm:text-sm font-bold py-1 px-3 sm:py-2 sm:px-4 rounded shadow">削除</button>` : '';
     
-    const urlButton = record.url ? `<div class="mb-6"><a href="${record.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-3 px-4 rounded-lg border border-blue-200 transition-colors">🔗 関連リンク / 公式サイト</a></div>` : '';
+    const urlButton = record.url ? `<div class="mb-6"><a href="${record.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-3 px-4 rounded-lg border border-blue-200 transition-colors break-all text-sm sm:text-base">🔗 関連リンク / 公式サイト</a></div>` : '';
 
     let setlistHtml = '';
     if (record.setlist && record.setlist.length > 0) {
         let count = 0;
-        setlistHtml = `<div class="mt-6 pt-4 border-t border-gray-200"><h3 class="font-bold text-gray-700 mb-3">🎵 セットリスト / メモ</h3><ul class="space-y-2 text-sm">${record.setlist.map(item => {
-            if(item.type === 'section') return `<li class="font-bold text-blue-600 mt-4 border-b border-blue-100 pb-1 flex items-center"><span class="mr-2">▼</span>${item.title}</li>`;
-            return `<li class="flex"><span class="w-6 text-gray-400 text-right mr-2">${++count}.</span><span class="text-gray-800">${item.title}</span></li>`;
+        setlistHtml = `<div class="mt-6 pt-4 border-t border-gray-200 w-full"><h3 class="font-bold text-gray-700 mb-3">🎵 セットリスト / メモ</h3><ul class="space-y-2 text-sm">${record.setlist.map(item => {
+            if(item.type === 'section') return `<li class="font-bold text-blue-600 mt-4 border-b border-blue-100 pb-1 flex items-start break-words"><span class="mr-2 flex-shrink-0">▼</span><span class="break-words">${item.title}</span></li>`;
+            return `<li class="flex items-start"><span class="w-6 text-gray-400 text-right mr-2 flex-shrink-0">${++count}.</span><span class="text-gray-800 break-words flex-grow min-w-0">${item.title}</span></li>`;
         }).join('')}</ul></div>`;
     }
 
-    // --- 修正箇所: カテゴリと種別の統合表示 ---
     const badgeHtml = record.type === 'live' 
-        ? `<span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">${record.liveType || 'LIVE'}</span>` 
-        : `<span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded">${record.type.toUpperCase()}</span>`;
+        ? `<span class="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded whitespace-nowrap">${record.liveType || 'LIVE'}</span>` 
+        : `<span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded whitespace-nowrap">${record.type.toUpperCase()}</span>`;
 
     dom.modalContent.innerHTML = `
         <div class="mb-4">
-            <div class="flex items-center gap-2 mb-2">
+            <div class="flex items-center gap-2 mb-2 flex-wrap">
                 ${badgeHtml}
-                <span class="text-gray-500 text-sm ml-auto">${record.date}</span>
+                <span class="text-gray-500 text-sm ml-auto whitespace-nowrap">${record.date}</span>
             </div>
-            <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight mt-2">${record.liveName}</h2>
-            <p class="text-xl text-blue-600 font-semibold">${record.artist}</p>
+            <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight mt-2 break-words">${record.liveName}</h2>
+            <p class="text-lg sm:text-xl text-blue-600 font-semibold break-words mt-1">${record.artist}</p>
         </div>
-        <div class="grid grid-cols-2 gap-4 mb-6">
-            <div class="bg-gray-50 p-3 rounded-lg"><p class="text-xs text-gray-500 font-bold">VENUE</p><p class="font-medium">${record.venue}</p></div>
-            <div class="bg-gray-50 p-3 rounded-lg"><p class="text-xs text-gray-500 font-bold">SEAT</p><p class="font-medium">${record.seatType || '-'}</p></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
+            <div class="bg-gray-50 p-3 rounded-lg w-full min-w-0"><p class="text-xs text-gray-500 font-bold">VENUE</p><p class="font-medium break-words">${record.venue}</p></div>
+            <div class="bg-gray-50 p-3 rounded-lg w-full min-w-0"><p class="text-xs text-gray-500 font-bold">SEAT</p><p class="font-medium break-words">${record.seatType || '-'}</p></div>
         </div>
         ${urlButton}
-        ${record.image ? `<img src="${record.image}" class="w-full rounded-lg shadow mb-4 object-cover max-h-96">` : ''}
-        ${record.ticketImage ? `<div class="mb-4"><p class="text-xs font-bold text-gray-500 mb-1">TICKET</p><img src="${record.ticketImage}" class="w-full rounded-lg shadow border object-cover max-h-60"></div>` : ''}
+        ${record.image ? `<img src="${record.image}" class="w-full rounded-lg shadow mb-4 object-cover max-h-[50vh] sm:max-h-96">` : ''}
+        ${record.ticketImage ? `<div class="mb-4 w-full"><p class="text-xs font-bold text-gray-500 mb-1">TICKET</p><img src="${record.ticketImage}" class="w-full rounded-lg shadow border object-cover max-h-40 sm:max-h-60"></div>` : ''}
         ${setlistHtml}
     `;
 }
@@ -458,37 +457,36 @@ window.enterEditMode = (id) => {
     const record = liveRecords.find(r => r.id === id);
     dom.editButtons.innerHTML = '';
     
-    // 編集画面用のライブ種別選択肢を生成
     const optionsHtml = liveTypeOptions.map(opt => `<option value="${opt}" ${record.liveType === opt ? 'selected' : ''}>${opt}</option>`).join('');
 
-    dom.modalContent.innerHTML = `<h2 class="text-xl font-bold mb-4 border-b pb-2">編集モード</h2>
-        <form onsubmit="event.preventDefault(); saveEditedRecord('${record.id}');">
-            <div class="mb-4"><label class="block text-sm font-bold text-gray-700">タイトル</label><input id="editLiveName" value="${record.liveName}" class="w-full p-2 border rounded"></div>
-            <div class="grid grid-cols-2 gap-3 mb-4">
-                <div><label class="block text-sm font-bold text-gray-700">日付</label><input type="date" id="editDate" value="${record.date}" class="w-full p-2 border rounded"></div>
-                <div><label class="block text-sm font-bold text-gray-700">アーティスト</label><input id="editArtist" value="${record.artist}" class="w-full p-2 border rounded"></div>
+    dom.modalContent.innerHTML = `<h2 class="text-lg sm:text-xl font-bold mb-4 border-b pb-2">編集モード</h2>
+        <form onsubmit="event.preventDefault(); saveEditedRecord('${record.id}');" class="w-full overflow-x-hidden">
+            <div class="mb-4"><label class="block text-sm font-bold text-gray-700 mb-1">タイトル</label><input id="editLiveName" value="${record.liveName}" class="w-full p-2 border rounded text-sm sm:text-base"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <div><label class="block text-sm font-bold text-gray-700 mb-1">日付</label><input type="date" id="editDate" value="${record.date}" class="w-full p-2 border rounded text-sm sm:text-base"></div>
+                <div><label class="block text-sm font-bold text-gray-700 mb-1">アーティスト</label><input id="editArtist" value="${record.artist}" class="w-full p-2 border rounded text-sm sm:text-base"></div>
             </div>
-            <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700">ライブ種別</label>
-                    <select id="editLiveType" class="w-full p-2 border rounded bg-white">${optionsHtml}</select>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">ライブ種別</label>
+                    <select id="editLiveType" class="w-full p-2 border rounded bg-white text-sm sm:text-base">${optionsHtml}</select>
                 </div>
-                <div><label class="block text-sm font-bold text-gray-700">会場</label><input id="editVenue" value="${record.venue}" class="w-full p-2 border rounded"></div>
+                <div><label class="block text-sm font-bold text-gray-700 mb-1">会場</label><input id="editVenue" value="${record.venue}" class="w-full p-2 border rounded text-sm sm:text-base"></div>
             </div>
-            <div class="grid grid-cols-2 gap-3 mb-4">
-                <div><label class="block text-sm font-bold text-gray-700">座席</label><input id="editSeatType" value="${record.seatType||''}" class="w-full p-2 border rounded"></div>
-                <div><label class="block text-sm font-bold text-gray-700">関連URL</label><input id="editUrl" type="url" value="${record.url||''}" class="w-full p-2 border rounded"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <div><label class="block text-sm font-bold text-gray-700 mb-1">座席</label><input id="editSeatType" value="${record.seatType||''}" class="w-full p-2 border rounded text-sm sm:text-base"></div>
+                <div><label class="block text-sm font-bold text-gray-700 mb-1">関連URL</label><input id="editUrl" type="url" value="${record.url||''}" class="w-full p-2 border rounded text-sm sm:text-base"></div>
             </div>
-            <div class="mb-4 text-sm bg-gray-50 p-3 rounded">
+            <div class="mb-4 text-sm bg-gray-50 p-3 rounded w-full">
                 <p class="font-bold mb-1">画像更新 (空欄なら維持)</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <input id="editImageFile" type="file" accept="image/*" class="w-full">
-                    <input id="editTicketImageFile" type="file" accept="image/*" class="w-full">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <input id="editImageFile" type="file" accept="image/*" class="w-full text-xs sm:text-sm">
+                    <input id="editTicketImageFile" type="file" accept="image/*" class="w-full text-xs sm:text-sm">
                 </div>
             </div>
-            <div class="mb-6">${renderSetlistEditor(record.setlist, 'edit')}</div>
-            <div class="flex space-x-3"><button class="flex-1 bg-blue-600 text-white font-bold py-2 rounded">保存</button><button type="button" onclick="openModal('${record.id}')" class="flex-1 bg-gray-300 text-gray-800 font-bold py-2 rounded">中止</button></div>
-            <p id="editMessage" class="text-center text-sm mt-2 font-bold"></p>
+            <div class="mb-6 w-full">${renderSetlistEditor(record.setlist, 'edit')}</div>
+            <div class="flex gap-3"><button class="flex-1 bg-blue-600 text-white font-bold py-2 sm:py-3 rounded shadow text-sm sm:text-base">保存</button><button type="button" onclick="openModal('${record.id}')" class="flex-1 bg-gray-300 text-gray-800 font-bold py-2 sm:py-3 rounded shadow text-sm sm:text-base">中止</button></div>
+            <p id="editMessage" class="text-center text-sm mt-2 font-bold break-words"></p>
         </form>`;
 };
 
@@ -549,23 +547,24 @@ function filterRecords() {
         const isUpcoming = new Date(rec.date) >= now;
         const dateStr = rec.date.split('-');
         
-        // --- 修正箇所: カード内のカテゴリと種別の統合表示 ---
         const badgeHtml = rec.type === 'live'
-            ? `<span class="px-2 py-1 rounded bg-blue-600 text-white">${rec.liveType || 'LIVE'}</span>`
-            : `<span class="px-2 py-1 rounded ${rec.type === 'event' ? 'bg-orange-500' : 'bg-green-600'} text-white">${rec.type.toUpperCase()}</span>`;
+            ? `<span class="px-2 py-1 rounded bg-blue-600 text-white whitespace-nowrap">${rec.liveType || 'LIVE'}</span>`
+            : `<span class="px-2 py-1 rounded ${rec.type === 'event' ? 'bg-orange-500' : 'bg-green-600'} text-white whitespace-nowrap">${rec.type.toUpperCase()}</span>`;
 
         const el = document.createElement('div');
-        el.className = `bg-white rounded-xl shadow p-5 cursor-pointer transform hover:-translate-y-1 transition-all border-t-4 ${isUpcoming?'border-blue-500':'border-gray-400 opacity-90'}`;
+        el.className = `bg-white rounded-xl shadow p-4 sm:p-5 cursor-pointer transform hover:-translate-y-1 transition-all border-t-4 w-full flex flex-col min-w-0 ${isUpcoming?'border-blue-500':'border-gray-400 opacity-90'}`;
         el.onclick = () => openModal(rec.id);
-        el.innerHTML = `<div class="flex justify-between text-xs font-bold mb-2">
-                <div class="flex gap-1">
+        el.innerHTML = `<div class="flex justify-between items-start text-xs font-bold mb-2">
+                <div class="flex gap-1 flex-wrap">
                     ${badgeHtml}
                 </div>
-                <span class="text-gray-400 font-mono">${dateStr[0]}</span>
+                <span class="text-gray-400 font-mono ml-2 flex-shrink-0">${dateStr[0]}</span>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 leading-tight mb-1 line-clamp-2">${rec.liveName}</h3>
-            <div class="text-2xl font-extrabold text-gray-700 mb-2">${dateStr[1]}/${dateStr[2]}</div>
-            <div class="flex items-center text-sm text-gray-500 truncate"><span class="text-blue-600 font-semibold mr-1">${rec.artist}</span> @ ${rec.venue}</div>`;
+            <h3 class="text-lg sm:text-xl font-bold text-gray-900 leading-tight mb-2 line-clamp-2 break-words">${rec.liveName}</h3>
+            <div class="mt-auto">
+                <div class="text-xl sm:text-2xl font-extrabold text-gray-700 mb-1">${dateStr[1]}/${dateStr[2]}</div>
+                <div class="text-xs sm:text-sm text-gray-500 line-clamp-2 break-words"><span class="text-blue-600 font-semibold mr-1">${rec.artist}</span> @ ${rec.venue}</div>
+            </div>`;
         (isUpcoming ? dom.upcomingList : dom.pastList).appendChild(el);
     });
     
